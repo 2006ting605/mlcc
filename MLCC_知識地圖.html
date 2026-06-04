@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLCC 知識地圖｜從入門到專業</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#faf9f6;
+  --surface:#ffffff;
+  --surface2:#f3f1ec;
+  --surface3:#e9e6de;
+  --text:#1c1b18;
+  --text2:#5c5a54;
+  --text3:#9c9a92;
+  --border:rgba(28,27,24,.1);
+  --border2:rgba(28,27,24,.18);
+  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:20px;
+
+  --t1-h:#1D6B52;--t1-m:#2d9e78;--t1-s:#5DCAA5;
+  --t1-bg-s:#e1f5ee;--t1-text-s:#085041;
+
+  --t2-h:#BA5500;--t2-m:#d97706;--t2-s:#FBBF24;
+  --t2-bg-s:#faeeda;--t2-text-s:#633806;
+
+  --t3-h:#4338CA;--t3-m:#6366F1;--t3-s:#A5B4FC;
+  --t3-bg-s:#eeedfe;--t3-text-s:#3C3489;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Helvetica Neue',Arial,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;}
+.wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+
+.page-hero{text-align:center;padding:2.5rem 1rem 2rem;margin-bottom:.5rem}
+.page-hero .kicker{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:20px;background:var(--surface2);color:var(--text3);margin-bottom:1rem}
+.page-hero h1{font-size:clamp(22px,4vw,32px);font-weight:700;line-height:1.3;margin-bottom:.75rem}
+.page-hero p{font-size:15px;color:var(--text2);max-width:520px;margin:0 auto 1.5rem}
+
+.legend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:2.5rem}
+.leg-pill{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:30px;border:1.5px solid var(--border2);font-size:13px;font-weight:600;user-select:none}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+.leg-t1 .leg-dot{background:var(--t1-s)}
+.leg-t2 .leg-dot{background:var(--t2-s)}
+.leg-t3 .leg-dot{background:var(--t3-s)}
+
+.track{margin-bottom:3rem}
+.track-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid}
+.track-t1 .track-header{border-color:var(--t1-s)}
+.track-t2 .track-header{border-color:var(--t2-s)}
+.track-t3 .track-header{border-color:var(--t3-s)}
+.track-icon{width:42px;height:42px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.track-t1 .track-icon{background:var(--t1-bg-s);color:var(--t1-text-s)}
+.track-t2 .track-icon{background:var(--t2-bg-s);color:var(--t2-text-s)}
+.track-t3 .track-icon{background:var(--t3-bg-s);color:var(--t3-text-s)}
+.track-header-text h2{font-size:19px;font-weight:700;margin-bottom:2px}
+.track-header-text p{font-size:13px;color:var(--text2)}
+.track-t1 .track-header-text h2{color:var(--t1-h)}
+.track-t2 .track-header-text h2{color:var(--t2-h)}
+.track-t3 .track-header-text h2{color:var(--t3-h)}
+
+.level-section{margin-bottom:1.5rem}
+.level-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+.lv-easy{background:var(--surface2);color:var(--text3)}
+.lv-mid{background:var(--surface3);color:var(--text2)}
+.lv-hard{background:var(--surface);border:1px solid var(--border2);color:var(--text2)}
+.dots{display:flex;gap:3px;align-items:center}
+.dots span{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35}
+.dots span.on{opacity:1}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:1.15rem 1.25rem;cursor:pointer;transition:border-color .18s;position:relative}
+.card:hover{border-color:var(--border2)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:.6rem}
+.card-num{font-size:11px;font-weight:700;letter-spacing:.5px;opacity:.45;flex-shrink:0;margin-top:2px}
+.expand-btn{font-size:13px;color:var(--text3);flex-shrink:0;transition:transform .2s;line-height:1}
+.card.open .expand-btn{transform:rotate(180deg)}
+.card h3{font-size:15px;font-weight:700;line-height:1.35;flex:1}
+.card .tagline{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:.75rem}
+
+.card-body{max-height:0;overflow:hidden;transition:max-height .35s ease,opacity .25s;opacity:0}
+.card.open .card-body{max-height:700px;opacity:1}
+
+.card-section{margin-bottom:.85rem}
+.card-section:last-child{margin-bottom:0}
+.card-section-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--text3);margin-bottom:.3rem}
+.card-section p{font-size:13px;color:var(--text2);line-height:1.7}
+.eg-box{background:var(--surface2);border-radius:var(--r-sm);padding:.65rem .85rem;font-size:13px;color:var(--text2);line-height:1.65;margin-top:.4rem;border-left:3px solid var(--border2)}
+.track-t1 .eg-box{border-left-color:var(--t1-s)}
+.track-t2 .eg-box{border-left-color:var(--t2-s)}
+.track-t3 .eg-box{border-left-color:var(--t3-s)}
+
+/* keyword pill */
+.kw{display:inline-flex;align-items:baseline;gap:4px;margin:1px 2px;padding:1px 7px;border-radius:4px;font-weight:600;font-size:12.5px;white-space:nowrap;line-height:1.7}
+.track-t1 .kw{background:var(--t1-bg-s);color:var(--t1-h)}
+.track-t2 .kw{background:var(--t2-bg-s);color:var(--t2-h)}
+.track-t3 .kw{background:var(--t3-bg-s);color:var(--t3-h)}
+.kw-en{font-size:11px;opacity:.7;font-style:italic}
+
+.card-bar{height:3px;border-radius:3px;margin-bottom:.9rem;opacity:.7}
+.track-t1 .lv-easy-bar .card-bar{background:var(--t1-s)}
+.track-t1 .lv-mid-bar .card-bar{background:var(--t1-m)}
+.track-t1 .lv-hard-bar .card-bar{background:var(--t1-h)}
+.track-t2 .lv-easy-bar .card-bar{background:var(--t2-s)}
+.track-t2 .lv-mid-bar .card-bar{background:var(--t2-m)}
+.track-t2 .lv-hard-bar .card-bar{background:var(--t2-h)}
+.track-t3 .lv-easy-bar .card-bar{background:var(--t3-s)}
+.track-t3 .lv-mid-bar .card-bar{background:var(--t3-m)}
+.track-t3 .lv-hard-bar .card-bar{background:var(--t3-h)}
+
+hr.divider{border:none;border-top:0.5px solid var(--border);margin:2.5rem 0}
+@media(max-width:500px){.cards-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="page-hero">
+  <div class="kicker">MLCC 知識地圖</div>
+  <h1>從完全不懂<br>到走相關領域</h1>
+  <p>三條學習路線、九個難度層次，每個觀念都有生活例子。<br>點開任何卡片查看詳細說明。</p>
+</div>
+
+<div class="legend">
+  <div class="leg-pill leg-t1"><span class="leg-dot"></span>基礎必懂（人人適用）</div>
+  <div class="leg-pill leg-t2"><span class="leg-dot"></span>進階必懂（想更深入）</div>
+  <div class="leg-pill leg-t3"><span class="leg-dot"></span>領域專業（走相關科系）</div>
+</div>
+
+
+<!-- ══ TRACK 1 ══ -->
+<div class="track track-t1" id="track1">
+  <div class="track-header">
+    <div class="track-icon">🌱</div>
+    <div class="track-header-text">
+      <h2>基礎必懂</h2>
+      <p>所有人都應該知道的 MLCC 知識，不需要任何理工背景</p>
+    </div>
+  </div>
+
+  <div class="level-section lv-easy-bar">
+    <div class="level-label lv-easy"><span class="dots"><span class="on"></span><span></span><span></span></span>簡單</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-1</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 到底是什麼東西？</h3>
+        <p class="tagline">電路板上小到幾乎看不見的黑色小方塊</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">積層陶瓷電容<span class="kw-en">MLCC / Multilayer Ceramic Capacitor</span></span> 是一顆焊在<span class="kw">電路板<span class="kw-en">PCB / Printed Circuit Board</span></span>上的微小元件，外觀是黑色或灰色的長方體，比米粒還小很多。它是全球用量最大的<span class="kw">被動元件<span class="kw-en">Passive Component</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🔋 你拆開舊手機，電路板上密密麻麻的小黑點，大部分就是 MLCC。一支 iPhone 裡大約有 1,000 顆以上。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-2</span><span class="expand-btn">▾</span></div>
+        <h3>電容的功能是什麼？</h3>
+        <p class="tagline">幫電路「穩住電壓」的小緩衝器</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">電容<span class="kw-en">Capacitor</span></span> 是一種「暫時存電、快速放電」的元件。當<span class="kw">電壓<span class="kw-en">Voltage</span></span>突然降低時，電容立刻補充；電壓過高時，它先吸收，防止晶片受損。這個動作叫做<span class="kw">穩壓<span class="kw-en">Voltage Stabilization</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🧋 就像飲料店的備用水桶。自來水壓不穩時，備用桶立刻補水，讓飲料出杯不中斷。MLCC 對晶片做的就是這件事。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-3</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 為什麼叫「積層」？</h3>
+        <p class="tagline">把很多薄層疊起來，容量變大體積不變</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>「積層（<span class="kw">Multilayer</span>）」就是「疊很多層」。把<span class="kw">陶瓷介電層<span class="kw-en">Ceramic Dielectric Layer</span></span>和<span class="kw">金屬電極<span class="kw-en">Metal Electrode</span></span>一層一層交替疊起來，再<span class="kw">燒結<span class="kw-en">Sintering</span></span>成一個整體。層數越多，能存的電越多，但體積幾乎不需要增加。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🥞 就像千層蛋糕。每層很薄，疊起來卻有很多層。MLCC 的每層陶瓷薄到幾微米，比頭髮還細 100 倍。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-mid-bar">
+    <div class="level-label lv-mid"><span class="dots"><span class="on"></span><span class="on"></span><span></span></span>中等</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-4</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 的尺寸怎麼看？</h3>
+        <p class="tagline">四位數字代碼代表長寬，越小越難製造</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>尺寸用<span class="kw">英制代碼<span class="kw-en">Imperial Size Code</span></span>表示，例如 <span class="kw">1206</span>、<span class="kw">0805</span>、<span class="kw">0402</span>、<span class="kw">0201</span>。前兩碼是長度，後兩碼是寬度，單位是英寸百分之一（約 0.254mm）。數字越小，<span class="kw">封裝<span class="kw-en">Package</span></span>越小，製造難度越高。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">📏 0402 = 長 1mm × 寬 0.5mm，大約是一粒芝麻的大小。0201 更只有 0.6 × 0.3mm，肉眼幾乎看不清楚，需要機器焊接。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-5</span><span class="expand-btn">▾</span></div>
+        <h3>電容量是什麼？pF、nF、µF？</h3>
+        <p class="tagline">就是「能裝多少電」的容量單位</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">電容量<span class="kw-en">Capacitance</span></span>用<span class="kw">法拉<span class="kw-en">Farad, F</span></span>當單位，但 1F 超大，日常用極小值：<span class="kw">皮法<span class="kw-en">picofarad, pF = 10⁻¹²F</span></span>、<span class="kw">奈法<span class="kw-en">nanofarad, nF = 10⁻⁹F</span></span>、<span class="kw">微法<span class="kw-en">microfarad, µF = 10⁻⁶F</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🪣 如果 1F 是一個大水塔，那 1µF 就是一個茶杯，1pF 大概是一滴水。手機裡大多數 MLCC 的容量在 1pF 到 100µF 之間。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-6</span><span class="expand-btn">▾</span></div>
+        <h3>為什麼 MLCC 缺貨會影響手機售價？</h3>
+        <p class="tagline">關鍵零件短缺，整條生產線都停擺</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>每支手機需要超過 1,000 顆 MLCC，缺了任何一種規格，整台手機就無法出貨。這種因單一零件短缺導致整條<span class="kw">供應鏈<span class="kw-en">Supply Chain</span></span>中斷的情況，稱為<span class="kw">瓶頸效應<span class="kw-en">Bottleneck Effect</span></span>。2018 年就發生過嚴重的 MLCC 缺貨潮。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🍱 就像便當工廠缺了白飯，整個便當就出不了貨，哪怕配菜都備齊了。MLCC 雖小，卻是手機生產線的關鍵。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-hard-bar">
+    <div class="level-label lv-hard"><span class="dots"><span class="on"></span><span class="on"></span><span class="on"></span></span>難一點</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-7</span><span class="expand-btn">▾</span></div>
+        <h3>耐壓是什麼？為什麼要留餘裕？</h3>
+        <p class="tagline">就像電線有安全電流上限，超過就燒掉</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">耐壓<span class="kw-en">Rated Voltage</span></span>是 MLCC 能承受的最大電壓。超過這個值，<span class="kw">介電層<span class="kw-en">Dielectric Layer</span></span>就會被<span class="kw">擊穿<span class="kw-en">Breakdown</span></span>永久損壞。工程師通常選擇實際電壓 2 倍以上的耐壓規格，這個安全距離叫做<span class="kw">降額<span class="kw-en">Derating</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🔌 電線有安全電流上限，超過就過熱起火。電路是 5V，選 10V 耐壓的 MLCC 才安全，選剛好 5V 的很危險。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-8</span><span class="expand-btn">▾</span></div>
+        <h3>被動元件 vs 主動元件，差在哪？</h3>
+        <p class="tagline">MLCC 不需要電源就能工作，它是被動的</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">主動元件<span class="kw-en">Active Component</span></span>（如晶片、電晶體）需要外部電源才能放大訊號或做邏輯運算。<span class="kw">被動元件<span class="kw-en">Passive Component</span></span>（如電容、電阻、電感）不放大、不運算，只是管理電能的流動，包含 MLCC、<span class="kw">電阻<span class="kw-en">Resistor</span></span>、<span class="kw">電感<span class="kw-en">Inductor</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🎙️ 主動元件就像麥克風擴大機，需要插電才能把聲音放大。被動元件就像一個水桶，不需要電，只是儲水和分配水。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T1-9</span><span class="expand-btn">▾</span></div>
+        <h3>AI 和電動車為什麼讓 MLCC 需求暴增？</h3>
+        <p class="tagline">越複雜的電子產品，需要越多的「穩壓小衛兵」</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">AI 伺服器<span class="kw-en">AI Server</span></span>裡的<span class="kw">GPU</span>運算量巨大，電壓波動劇烈，需要大量高規格 MLCC 穩壓。<span class="kw">電動車<span class="kw-en">Electric Vehicle, EV</span></span>的電控系統比燃油車複雜 3–5 倍，需要的 MLCC 數量也倍增，並要符合<span class="kw">車用等級<span class="kw-en">Automotive Grade</span></span>規範。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🚗 傳統汽車像簡單的收音機，電動車像一整個演唱會的音響設備。越複雜的設備，需要越多個「穩壓緩衝器」，MLCC 的需求因此暴增。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ TRACK 2 ══ -->
+<div class="track track-t2" id="track2">
+  <div class="track-header">
+    <div class="track-icon">🔶</div>
+    <div class="track-header-text">
+      <h2>進階必懂</h2>
+      <p>想看懂財經新聞、買電子股、或純粹想更深入了解的人</p>
+    </div>
+  </div>
+
+  <div class="level-section lv-easy-bar">
+    <div class="level-label lv-easy"><span class="dots"><span class="on"></span><span></span><span></span></span>簡單</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-1</span><span class="expand-btn">▾</span></div>
+        <h3>溫度係數是什麼？C0G / X7R / X5R？</h3>
+        <p class="tagline">溫度變化時，電容量會不會跑掉的指標</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">溫度係數<span class="kw-en">Temperature Coefficient</span></span>代表溫度變化時電容量的穩定程度。<span class="kw">C0G（NP0）</span>最穩，幾乎不變；<span class="kw">X7R</span> 在 -55°C 到 +125°C 誤差 ±15%，最常見；<span class="kw">X5R</span>溫度範圍到 +85°C，便宜但穩定性差一點。這是由<span class="kw">EIA 標準<span class="kw-en">EIA Standard</span></span>規定的分類。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🌡️ C0G 是高精密體重計，冬天夏天都很準。X7R 是一般體重計，夏天可能偏輕幾百克。X5R 只能在室溫量，拿到戶外就不準了。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-2</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 在電路裡的三大用途</h3>
+        <p class="tagline">去耦、濾波、耦合——三種不同的電路任務</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>① <span class="kw">去耦<span class="kw-en">Decoupling</span></span>：緊靠晶片，瞬間補電，也稱旁路電容（<span class="kw">Bypass Capacitor</span>）。② <span class="kw">濾波<span class="kw-en">Filtering</span></span>：去除電源中的<span class="kw">雜訊<span class="kw-en">Noise</span></span>，讓訊號乾淨。③ <span class="kw">耦合<span class="kw-en">Coupling</span></span>：讓<span class="kw">交流<span class="kw-en">AC</span></span>訊號通過，但擋住<span class="kw">直流<span class="kw-en">DC</span></span>，隔離兩段電路。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">💧 去耦像緊急備用水桶；濾波像淨水器；耦合像讓聲音穿過牆但不讓人穿過的音響孔。同一種零件，放在不同位置做不同的事。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-3</span><span class="expand-btn">▾</span></div>
+        <h3>台灣 MLCC 廠商在全球什麼地位？</h3>
+        <p class="tagline">國巨和華新科是世界前五大，但村田更強</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>全球 MLCC <span class="kw">市佔率<span class="kw-en">Market Share</span></span>以日本<span class="kw">村田製作所<span class="kw-en">Murata Manufacturing</span></span>為首，韓國<span class="kw">三星電機<span class="kw-en">Samsung Electro-Mechanics, SEMCO</span></span>第二，台灣<span class="kw">國巨<span class="kw-en">YAGEO, 股票代號 2327</span></span>和<span class="kw">華新科<span class="kw-en">Walsin Technology, 股票代號 2492</span></span>在前五名內。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🏆 村田是 MLCC 界的台積電，技術領先量又大。國巨、華新科就像聯發科，各有強項，在特定市場很有競爭力，全球供應鏈少不了它們。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-mid-bar">
+    <div class="level-label lv-mid"><span class="dots"><span class="on"></span><span class="on"></span><span></span></span>中等</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-4</span><span class="expand-btn">▾</span></div>
+        <h3>直流偏壓效應（DC Bias）是什麼？</h3>
+        <p class="tagline">施加直流電壓後，電容量會縮水的現象</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>當 X5R、X7R 類型的 MLCC 承受<span class="kw">直流偏壓<span class="kw-en">DC Bias Voltage</span></span>時，電容量比<span class="kw">標稱值<span class="kw-en">Nominal Value</span></span>小很多，有時損失 50% 以上。這是<span class="kw">鈦酸鋇<span class="kw-en">Barium Titanate, BaTiO₃</span></span>陶瓷材料的<span class="kw">壓電效應<span class="kw-en">Piezoelectric Effect</span></span>物理特性，<span class="kw">C0G</span>不受影響。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🧃 就像飲料吸管，沒用時容量是 100%，用力吸的時候（施加電壓）吸管被壓扁，實際流量只剩一半。工程師選料時必須把這個縮水量算進去。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-5</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 為什麼有「鳴叫」現象？</h3>
+        <p class="tagline">電容在特定頻率下震動，發出細微聲音</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>MLCC 的鈦酸鋇陶瓷具有<span class="kw">壓電效應<span class="kw-en">Piezoelectric Effect</span></span>，在<span class="kw">交流電場<span class="kw-en">AC Electric Field</span></span>下產生微小的機械形變，震動電路板，發出細微的嗡嗡聲，稱為<span class="kw">電容鳴叫<span class="kw-en">Acoustic Noise / Singing Capacitor</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🔊 你有沒有聽過充電器充電時發出細微的嗡嗡聲？那很可能就是 MLCC 在震動。音頻設備設計師會用特殊的低鳴叫（Low Acoustic Noise）MLCC。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-6</span><span class="expand-btn">▾</span></div>
+        <h3>車用 MLCC 和消費性電子用有什麼不同？</h3>
+        <p class="tagline">規格更嚴、測試更多、價格貴很多</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>車用 MLCC 需符合<span class="kw">AEC-Q200<span class="kw-en">Automotive Electronics Council Standard Q200</span></span>認證，<span class="kw">工作溫度範圍<span class="kw-en">Operating Temperature Range</span></span>更廣（-55°C ~ +150°C），<span class="kw">可靠性<span class="kw-en">Reliability</span></span>標準更高，<span class="kw">失效率<span class="kw-en">Failure Rate</span></span>極低，售價是同規格消費性品的 3–10 倍。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">✈️ 就像民航飛機的螺絲跟普通螺絲，外觀一樣，但飛機螺絲要更多認證和測試，確保在極端條件下也不失效。車用 MLCC 就是這樣，貴但值得。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-hard-bar">
+    <div class="level-label lv-hard"><span class="dots"><span class="on"></span><span class="on"></span><span class="on"></span></span>難一點</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-7</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 供應鏈週期與存貨循環</h3>
+        <p class="tagline">需求爆發→缺貨漲價→廠商擴產→供過於求→降價，循環不斷</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>MLCC 產業有明顯的<span class="kw">產業週期<span class="kw-en">Industry Cycle</span></span>：需求大增→<span class="kw">缺貨<span class="kw-en">Supply Shortage</span></span>哄抬→廠商決定<span class="kw">擴產<span class="kw-en">Capacity Expansion</span></span>（需 18–24 個月）→<span class="kw">產能<span class="kw-en">Production Capacity</span></span>釋放時需求已降→<span class="kw">供過於求<span class="kw-en">Oversupply</span></span>→價格崩跌。2018 年缺貨到 2020 年過剩就是典型案例。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🐷 就像豬肉漲價時農民大量養豬，兩年後豬肉大量上市反而供過於求、價格崩盤。MLCC 週期也是如此，廠商擴廠需要時間，常常「慢一拍」。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-8</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 與電感、電阻的差異與搭配</h3>
+        <p class="tagline">三兄弟各有功能，常常要一起用</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">電阻<span class="kw-en">Resistor, R</span></span>控制電流大小；<span class="kw">電感<span class="kw-en">Inductor, L</span></span>儲存磁能、抵抗電流變化；<span class="kw">電容<span class="kw-en">Capacitor, C</span></span>儲存電能、抵抗電壓變化。三者常組成<span class="kw">LC 濾波器<span class="kw-en">LC Filter</span></span>、<span class="kw">RC 緩衝電路<span class="kw-en">RC Snubber Circuit</span></span>，統稱<span class="kw">RLC 電路<span class="kw-en">RLC Circuit</span></span>，缺一不可。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🚰 電阻是水龍頭（控制流量）、電感是水管慣性（水不會瞬間停止）、電容是水桶（儲水）。蓋一棟樓的水電系統，三樣都要配合。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T2-9</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 在 5G 和 AI 伺服器的需求在哪？</h3>
+        <p class="tagline">頻率越高、運算量越大，需要的 MLCC 更多更好</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">5G 基站<span class="kw-en">5G Base Station</span></span>射頻前端需要大量高頻、低損耗的 C0G 類型 MLCC。AI 伺服器的<span class="kw">GPU</span>附近需要超高容量的<span class="kw">去耦電容<span class="kw-en">Decoupling Capacitor</span></span>，用量是一般伺服器的 3 倍以上，且<span class="kw">容值<span class="kw-en">Capacitance Value</span></span>與<span class="kw">耐壓<span class="kw-en">Voltage Rating</span></span>規格更嚴苛。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🏗️ 蓋普通房子需要 100 根鋼筋，蓋高鐵站需要 500 根且強度更高。AI 伺服器就是電子界的高鐵站，MLCC 的需求規格都不一樣。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ TRACK 3 ══ -->
+<div class="track track-t3" id="track3">
+  <div class="track-header">
+    <div class="track-icon">🎓</div>
+    <div class="track-header-text">
+      <h2>領域專業</h2>
+      <p>資訊工程、電機、材料、工管、投資分析等相關科系的學生才需要深入的知識</p>
+    </div>
+  </div>
+
+  <div class="level-section lv-easy-bar">
+    <div class="level-label lv-easy"><span class="dots"><span class="on"></span><span></span><span></span></span>簡單</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-1</span><span class="expand-btn">▾</span></div>
+        <h3>鈦酸鋇（BaTiO₃）為什麼是主角？</h3>
+        <p class="tagline">高介電常數讓小體積也能存大量電</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">鈦酸鋇<span class="kw-en">Barium Titanate, BaTiO₃</span></span>的<span class="kw">介電常數<span class="kw-en">Dielectric Constant, ε</span></span>高達 1,000–10,000，遠高於其他陶瓷材料。電容量公式 C = ε × A / d，介電常數越高，相同面積和厚度下可存的電越多，這讓 MLCC 實現小體積高<span class="kw">電容量<span class="kw-en">Capacitance</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🧲 就像海綿和木頭的吸水能力不同。海綿（鈦酸鋇）吸水量是木頭（普通陶瓷）的好幾千倍。用海綿做「電能容器」，同樣大小能裝更多電。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-2</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 製程的五大步驟</h3>
+        <p class="tagline">原料→成型→積層→燒結→電極，缺一不可</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>① 陶瓷粉配製 → ② <span class="kw">流延成型<span class="kw-en">Tape Casting</span></span>（做成薄膜）→ ③ 印刷內電極 → ④ <span class="kw">積層疊壓<span class="kw-en">Lamination</span></span>切割 → ⑤ 高溫<span class="kw">燒結<span class="kw-en">Sintering</span></span>（1,200°C 以上）→ ⑥ 塗佈<span class="kw">外部端電極<span class="kw-en">External Terminal Electrode</span></span>→ ⑦ <span class="kw">電鍍<span class="kw-en">Electroplating</span></span>→ ⑧ <span class="kw">電性測試分選<span class="kw-en">Electrical Testing &amp; Sorting</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🍰 就像做千層酥：先做麵團薄片（流延成型）→印上奶油（電極）→一層層疊起來→放進高溫烤箱（燒結）→切邊整形→完成。MLCC 的「烤箱」溫度是千層酥的 10 倍以上。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-3</span><span class="expand-btn">▾</span></div>
+        <h3>ESR 和 ESL——真實電容的「寄生效應」</h3>
+        <p class="tagline">真實電容不是完美的，有額外阻抗存在</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>理想電容只有電容量 C，但真實 MLCC 還有<span class="kw">等效串聯電阻<span class="kw-en">ESR / Equivalent Series Resistance</span></span>（代表能量損耗）和<span class="kw">等效串聯電感<span class="kw-en">ESL / Equivalent Series Inductance</span></span>（來自引線和結構）。高頻下 ESL 影響很大，稱為<span class="kw">寄生效應<span class="kw-en">Parasitic Effect</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🪣 理想水桶只進水出水，但真實水桶有洩漏（ESR，能量損耗）和慣性（ESL，水流不能瞬間改變方向）。高頻電路就像快速開關水桶閥門，這些小缺陷影響很大。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-mid-bar">
+    <div class="level-label lv-mid"><span class="dots"><span class="on"></span><span class="on"></span><span></span></span>中等</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-4</span><span class="expand-btn">▾</span></div>
+        <h3>自我諧振頻率（SRF）與頻率響應</h3>
+        <p class="tagline">每顆 MLCC 有一個「最有效」的工作頻率</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>當 MLCC 工作頻率達到<span class="kw">自我諧振頻率<span class="kw-en">SRF / Self-Resonant Frequency</span></span>時，電容量和 ESL 互相抵消，<span class="kw">阻抗<span class="kw-en">Impedance</span></span>最低，濾波效果最好。頻率超過 SRF 後，MLCC 轉變成<span class="kw">電感特性<span class="kw-en">Inductive Behavior</span></span>，完全失去濾波功能。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🎸 就像吉他的共鳴腔，只在特定頻率（共鳴頻率）時效果最好。MLCC 的 SRF 就是它的「共鳴點」，高頻電路工程師必須選 SRF 高於工作頻率的電容。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-5</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 可靠性測試：HALT 和 HAST</h3>
+        <p class="tagline">用極端環境加速老化，預測產品壽命</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">HALT<span class="kw-en">Highly Accelerated Life Test，高加速壽命測試</span></span>用高溫、振動、電壓衝擊找出設計弱點；<span class="kw">HAST<span class="kw-en">Highly Accelerated Stress Test，高加速應力測試</span></span>用高溫高濕加速腐蝕，模擬長年使用。兩者都是<span class="kw">加速老化測試<span class="kw-en">Accelerated Aging Test</span></span>的方法。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🏋️ 就像新款運動鞋上市前，要在跑步機上跑相當於「10 年使用量」的測試。MLCC 也要在高溫烤箱裡「加速老化」，確保實際用 10 年不會壞。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-6</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 的焊接與機械應力裂紋</h3>
+        <p class="tagline">焊錫冷卻收縮的力，是 MLCC 最常見的殺手</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>MLCC 在<span class="kw">回焊<span class="kw-en">Reflow Soldering</span></span>後，焊點冷卻收縮產生應力。電路板彎曲時也會傳遞應力到 MLCC 的陶瓷本體，造成<span class="kw">撓曲裂紋<span class="kw-en">Flex Crack</span></span>，輕則<span class="kw">電容量漂移<span class="kw-en">Capacitance Drift</span></span>，重則<span class="kw">短路<span class="kw-en">Short Circuit</span></span>或<span class="kw">斷路<span class="kw-en">Open Circuit</span></span>。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🪴 就像陶瓷花盆，外力撞擊或溫差太大就會裂開。MLCC 的陶瓷體很脆，焊接應力就像每天在花盆上加一點點力，累積久了就裂了。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="level-section lv-hard-bar">
+    <div class="level-label lv-hard"><span class="dots"><span class="on"></span><span class="on"></span><span class="on"></span></span>難一點</div>
+    <div class="cards-grid">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-7</span><span class="expand-btn">▾</span></div>
+        <h3>奈米化與堆疊技術的製程挑戰</h3>
+        <p class="tagline">介電層薄到 1 微米以下，製程難度接近半導體</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>現代高容量 MLCC<span class="kw">介電層<span class="kw-en">Dielectric Layer</span></span>厚度已突破 1<span class="kw">微米<span class="kw-en">µm / Micrometer</span></span>，層數超過 1,000 層。薄層化要求<span class="kw">陶瓷粉<span class="kw-en">Ceramic Powder</span></span>粒徑均一性極高（&lt;100<span class="kw">奈米<span class="kw-en">nm / Nanometer</span></span>），燒結後的<span class="kw">緻密性<span class="kw-en">Density</span></span>決定耐壓和壽命。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🔬 印 1,000 張薄到透明的陶瓷薄紙，每張厚度誤差不超過幾十個原子，再完美黏合成一疊不到 1mm 的方塊。這就是現代 MLCC 製程的精密程度，接近半導體製造。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-8</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 的電容量計算公式</h3>
+        <p class="tagline">C = ε₀ × εᵣ × n × A / d，層數乘以面積除以厚度</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p>電容量 C = ε₀ × εᵣ × (n-1) × A / d。其中 <span class="kw">ε₀<span class="kw-en">Vacuum Permittivity，真空介電常數</span></span>、<span class="kw">εᵣ<span class="kw-en">Relative Permittivity，相對介電常數</span></span>、<span class="kw">n<span class="kw-en">Number of Electrode Layers，電極層數</span></span>、<span class="kw">A<span class="kw-en">Effective Area，有效面積</span></span>、<span class="kw">d<span class="kw-en">Dielectric Thickness，介電層厚度</span></span>。增加 n（層數）或縮小 d（薄化），都能提升容量。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">📐 就像停車場面積。樓層（n）越多、每層面積（A）越大、天花板（d）越低，總停車位就越多。MLCC 的「停車位」就是可存的電量。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-bar"></div>
+        <div class="card-top"><span class="card-num">T3-9</span><span class="expand-btn">▾</span></div>
+        <h3>MLCC 的失效模式分析（FMA）</h3>
+        <p class="tagline">短路、斷路、電容漂移——三大失效模式各有成因</p>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-label">是什麼</div>
+            <p><span class="kw">失效模式分析<span class="kw-en">FMA / Failure Mode Analysis</span></span>三大類：① <span class="kw">短路<span class="kw-en">Short Circuit</span></span>：介電層被<span class="kw">擊穿<span class="kw-en">Breakdown</span></span>或有缺陷；② <span class="kw">斷路<span class="kw-en">Open Circuit</span></span>：端電極與內電極<span class="kw">脫層<span class="kw-en">Delamination</span></span>，常見於<span class="kw">熱循環<span class="kw-en">Thermal Cycling</span></span>引起的<span class="kw">機械疲勞<span class="kw-en">Mechanical Fatigue</span></span>；③ <span class="kw">電容值漂移<span class="kw-en">Capacitance Drift</span></span>：DC Bias 效應或老化造成。</p>
+          </div>
+          <div class="card-section">
+            <div class="card-section-label">生活例子</div>
+            <div class="eg-box">🔧 就像水管失效的三種方式：爆管（短路，瞬間大量漏水）、管接頭斷開（斷路，完全沒水）、管子慢慢老化縮小（漂移，流量越來越小）。工程師要根據不同症狀找出真正原因。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:3rem;padding-top:1.5rem;border-top:0.5px solid var(--border)">
+  <p style="font-size:12px;color:var(--text3)">MLCC 知識地圖｜3 條路線 × 3 難度 × 9 大觀念 = 27 個概念卡片</p>
+</div>
+
+</div>
+
+<script>
+function toggle(card){
+  const isOpen=card.classList.contains('open');
+  card.closest('.cards-grid').querySelectorAll('.card').forEach(c=>c.classList.remove('open'));
+  if(!isOpen)card.classList.add('open');
+}
+</script>
+</body>
+</html>
